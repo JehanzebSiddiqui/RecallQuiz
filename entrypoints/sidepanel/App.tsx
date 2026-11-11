@@ -9,7 +9,6 @@ type Message =
 export default function App() {
   const [text, setText] = useState("");
   const [image, setImage] = useState<string | null>(null);
-  const [apiKey, setApiKey] = useState("");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
   const [revealed, setRevealed] = useState<boolean[]>([]);
@@ -22,13 +21,6 @@ export default function App() {
     : text
     ? { kind: "text", text }
     : null;
-
-  // Load the saved API key when the panel opens
-  useEffect(() => {
-    chrome.storage.local.get("apiKey").then((r) => {
-      if (r.apiKey) setApiKey(r.apiKey as string);
-    });
-  }, []);
 
   // Messages from the content script and background script
   useEffect(() => {
@@ -71,11 +63,6 @@ export default function App() {
     return () => window.removeEventListener("paste", onPaste);
   }, []);
 
-  function saveKey(value: string) {
-    setApiKey(value);
-    chrome.storage.local.set({ apiKey: value });
-  }
-
   async function onSnip() {
     setError("");
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -95,7 +82,7 @@ export default function App() {
     setError("");
     setQuestions([]);
     try {
-      const qs = await generateQuiz(apiKey, source);
+      const qs = await generateQuiz(source);
       setQuestions(qs);
       setAnswers(qs.map(() => ""));
       setRevealed(qs.map(() => false));
@@ -109,14 +96,6 @@ export default function App() {
   return (
     <div style={{ padding: 16, fontFamily: "system-ui, sans-serif" }}>
       <h2>Recall AI</h2>
-
-      <input
-        type="password"
-        placeholder="Paste your Anthropic API key"
-        value={apiKey}
-        onChange={(e) => saveKey(e.target.value)}
-        style={{ width: "100%", marginBottom: 12 }}
-      />
 
       <button onClick={onSnip}>Snip a region</button>
       <p style={{ fontSize: 12, color: "#777" }}>
@@ -134,7 +113,7 @@ export default function App() {
 
       {source && (
         <div style={{ marginTop: 8 }}>
-          <button onClick={onGenerate} disabled={loading || !apiKey}>
+          <button onClick={onGenerate} disabled={loading}>
             {loading ? "Generating..." : "Generate quiz"}
           </button>
         </div>
