@@ -114,7 +114,7 @@ export default function App() {
     setError("");
     setGrading((g) => g.map((v, j) => (j === i ? true : v)));
     try {
-      const grade = await gradeAnswer(q.question, q.answer, answers[i]);
+      const grade = await gradeAnswer(q.question, q.answer, answers[i] ?? "");
       setGrades((gs) => gs.map((x, j) => (j === i ? grade : x)));
       setRevealed((rs) => rs.map((r, j) => (j === i ? true : r)));
     } catch (err) {
