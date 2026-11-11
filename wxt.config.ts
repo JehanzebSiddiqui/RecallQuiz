@@ -6,7 +6,7 @@ export default defineConfig({
     name: "Recall AI",
     description: "Quiz yourself on what you read",
     permissions: ["sidePanel", "activeTab", "storage"],
-    host_permissions: ["https://api.anthropic.com/*"],
+    host_permissions: ["<all_urls>"],
     action: { default_title: "Open Recall AI" },
   },
 });
