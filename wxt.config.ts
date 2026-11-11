@@ -6,7 +6,7 @@ export default defineConfig({
     name: "Recall AI",
     description: "Quiz yourself on what you read",
     permissions: ["sidePanel", "activeTab", "storage"],
-    host_permissions: ["<all_urls>"],
+    host_permissions: ["https://recall-proxy.jehanzeb.workers.dev/*"],
     action: { default_title: "Open Recall AI" },
   },
 });

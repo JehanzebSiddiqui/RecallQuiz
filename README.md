@@ -29,16 +29,10 @@ TypeScript, React, WXT (Manifest V3), Chrome Extension APIs (`sidePanel`, `tabs`
 
 ## Getting started
 
-```bash
-git clone https://github.com/JehanzebSiddiqui/RecallQuiz.git
-cd RecallQuiz
-npm install
-npm run dev
-```
-
-`npm run dev` opens a Chrome window with the extension loaded. Open the side panel from the puzzle-piece icon, then highlight text or click **Snip a region**.
-
-The extension calls a hosted proxy (see `utils/quiz.ts`). To run your own, deploy the Worker from the `recall-proxy` project and set `PROXY_URL` to your Worker's address.
+### Install without the Web Store
+1. Download the latest `.zip` from [Releases](https://github.com/JehanzebSiddiqui/RecallQuiz/releases) and unzip it.
+2. Open `chrome://extensions` and turn on **Developer mode**.
+3. Click **Load unpacked** and select the unzipped folder (the one that contains `manifest.json`).
 
 ## Security
 
